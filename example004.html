@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <title>example004</title>
+    <style>
+      body {
+        font-size: 14px;
+        background: gray;
+        margin: 1em;
+      }
+      
+      #canvas {
+        width: 400px;
+        height: 225px;
+        background: url("./images/mr_bean.jpg");
+        background-size: contain;
+      }
+      
+      .invisible {
+        display: none;
+      }
+    </style>    
+  </head> 
+  
+  <body>
+    <canvas id="canvas"></canvas><br>
+    <a href="example001.html">example001</a>
+    
+    <script>
+      let canvas = document.getElementById("canvas");
+      let ctx = canvas.getContext("2d");
+            
+      let mouseX = 0;
+      let mouseY = 0;
+      let mouseIsPressed = false;
+           
+      let brushSize = 20;
+          
+      canvas.addEventListener("mousemove", function(e) { 
+        let rect = canvas.getBoundingClientRect(); 
+        mouseX = Math.round(e.clientX - rect.left) * (canvas.width / rect.width);   
+        mouseY = Math.round(e.clientY - rect.top) * (canvas.height / rect.height);   
+      });
+      
+      canvas.addEventListener("mousedown", function(e) {
+        mouseIsPressed = true;
+      });
+      
+      document.addEventListener("mouseup", function(e) {
+        mouseIsPressed = false;
+      });
+      
+      ctx.beginPath();
+      ctx.fillStyle = "black";
+      ctx.rect(0, 0, canvas.width, canvas.height);
+      ctx.fill();
+      
+      setInterval(function() {
+        if (mouseIsPressed) {
+          ctx.clearRect(mouseX - (brushSize/2), mouseY - (brushSize/2), brushSize, brushSize);
+        }       
+      }, (1/60)*1000);
+    </script>
+  </body>
+  
+</html>
+
